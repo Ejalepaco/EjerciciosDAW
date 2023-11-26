@@ -1,0 +1,138 @@
+import java.util.Scanner;
+
+public class EjercicioBingo {
+
+    public static void main(String[] args) {
+
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.println("Para la apuesta, teclee el numero de veces que cree necesitara para acertar: ");
+
+        int cantidadAciertos = scanner.nextInt();
+
+        System.out.println("Para la apuesta, introduzca el importe en euros: ");
+
+        int apuesta = scanner.nextInt();
+
+
+
+
+        int[] carton = new int[10]; // creo el array de 10 posiciones de mi carton
+
+
+        // para el do while del CARTON:
+        // necesito un array con los numeros que ya hayan salido, leerlo y que el nuevo generado
+        // no sea igual a los que hayan salido.
+        // Do While
+        // PARA WHILE si el aleatorio está en el conjunto del carton, repite.
+        // recorro el array de Carton, y si esta es true, y si no esta es false.
+        // garantizo que no está, lo añado al Cartón. Debo contabilizar los intentos, para saber
+        // cuánto tardé en cantar linea, y cuánto tardé en cantar bingo numeros[i] = aleatorio
+
+
+        for (int contadorRellenar = 0; contadorRellenar < carton.length; contadorRellenar++) {
+            boolean numeroRepetido;
+            int numeroGenerado;
+            do {
+                numeroRepetido = false;
+                numeroGenerado = (int) (Math.random()*99)+1;  // numeros del carton generados aleatoriamente
+                for (int contadorComprobar = 0; contadorComprobar < contadorRellenar; contadorComprobar++){
+                // ver elemento
+                    int numeroComprobar = carton[contadorComprobar];
+                // comparar elemento
+                    if (numeroGenerado == numeroComprobar){
+                        numeroRepetido = true;
+
+                    }
+
+                }
+            }while(numeroRepetido);
+            carton[contadorRellenar] = numeroGenerado; // relleno carton con un numero que no ha salido.
+        }
+        System.out.println("Rellenamos el carton");
+
+            // PARA WHILE si el aleatorio está en el conjunto del cartón, repite.
+
+
+            // while (true);
+            // condicion para while. Si el aleatorio esta en el conjunto de salidos, repite
+            // recorro el array de numerosBingo, y si esta es true, y si no esta es false.
+            // garantizo que no está, lo añado al cartón.
+
+
+        System.out.println("¡Espero ganarle a mi cuñado!, los numeros de mi carton son son: "); // generamos numeros del carton
+        for (int item : carton) {
+            System.out.println(item);
+
+
+        }
+
+
+        int[] numerosBingo = new int[99]; // creo el array de 99 posiciones del bingo
+
+        // para el do while del BINGO:
+        // necesito un array con los numeros que ya hayan salido, leerlo y que el nuevo generado
+        // no sea igual a los que hayan salido.
+        // Do While
+        // PARA WHILE si el aleatorio está en el conjunto del Bingo, repite.
+        // recorro el array de numerosBingo, y si esta es true, y si no esta es false.
+        // garantizo que no está, lo añado al bingo.
+
+        for (int i = 0; i < 99; i++) {
+            numerosBingo[i]= i+1;
+        }
+        int cantoLinea = 5;
+        boolean bolaRepetida;
+        int numeroAciertos = 0;
+        int cantoBingo = 10;
+        int numeroJugadas = 0;
+        int numeroJugadasLinea = 0;
+
+        do {
+            int bolaSacada = 0;
+            do { // comprobamos si hemos sacado una bola que no este repetida
+                bolaRepetida = false;
+
+                int posicionBolaSacada = (int) (Math.random()*99);
+                // indicamos con un 0 que esa bola ya la hemos sacado
+                if (numerosBingo[posicionBolaSacada]== 0){
+                    bolaRepetida = true;
+
+                }else {
+                    bolaSacada = numerosBingo[posicionBolaSacada];
+                    numerosBingo[posicionBolaSacada] = 0; // indicamos que esa bola ya la hemos sacado
+                }
+            }while (bolaRepetida);
+
+            numeroJugadas++;
+
+
+            for (int numero:carton) { //comprobar si tenemos la bola sacada en el carton
+                if (bolaSacada == numero) {
+                    numeroAciertos++;
+                }
+            }
+            if (numeroAciertos == cantoLinea){
+                numeroJugadasLinea = numeroJugadas;
+            }
+
+
+
+        }while (numeroAciertos < cantoBingo);
+
+
+
+
+
+        System.out.println("Para cantar linea he necesitado este numero de jugadas: "+numeroJugadasLinea);
+        System.out.println();
+        System.out.println("Para cantar bingo he necesitado este numero de jugadas: "+numeroJugadas);
+        System.out.println();
+        
+        if (cantidadAciertos == numeroJugadas){
+            System.out.println("He ganado "+numeroJugadas*apuesta+" euros");
+        }else {
+            System.out.println("No he acertado para nada");
+        }
+    }
+}
